@@ -5,9 +5,9 @@ Worked example: estimate loss-basin volume for a trained nanoGPT
 checkpoint (https://github.com/karpathy/nanoGPT).
 
 Run this from the minima-volumes repo root after:
-  1. cloning nanoGPT alongside this repo
-  2. preparing a dataset, e.g. shakespeare_char
-  3. training a checkpoint with `python train.py config/train_shakespeare_char.py`
+  1. preparing a dataset, e.g. `python nanogpt/data/shakespeare_char/prepare.py`
+  2. training a checkpoint with
+     `cd nanogpt && python train.py config/train_shakespeare_char.py`
 
 The bridge does three things nanoGPT-specific:
   - reconstructs GPT from the checkpoint and strips the `_orig_mod.` prefix
@@ -30,8 +30,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-# nanoGPT lives outside this repo; add it to the import path
-NANOGPT_DIR = Path('/root/nanogpt')
+# nanoGPT is vendored at ./nanogpt/; add it to the import path
+NANOGPT_DIR = Path(__file__).resolve().parent / 'nanogpt'
 sys.path.insert(0, str(NANOGPT_DIR))
 
 from model import GPTConfig, GPT  # from nanoGPT
